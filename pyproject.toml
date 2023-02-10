@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "Universal Template Manager"
+version = "0.1.0"
+authors = [
+  { name="Lilian Russo", email="russo.lilian2@gmail.com" },
+]
+description = "Unified template manager for all language and more"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Leer0r/Universal_Template_Manager"
+"Bug Tracker" = "https://github.com/Leer0r/Universal_Template_Manager/issues"
