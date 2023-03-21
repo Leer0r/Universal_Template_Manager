@@ -1,0 +1,6 @@
+colorama
+pyyaml
+columnar
+keyboard
+pynput
+inquirer
