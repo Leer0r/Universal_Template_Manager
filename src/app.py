@@ -1,8 +1,8 @@
 from yaml import load
 from pathlib import Path
 import os
-from columnar import columnar
 import inquirer
+import shutil
 
 
 try:
@@ -25,12 +25,14 @@ class utm:
                     print(f"Error for {path.resolve()}: no directory")
                     continue
             self.local_path.append(path)
-                    
+
         self.templateNum = 0
+        self.projectName = ""
         self.templateList = []
         self.templateTranslator = {}
         self.getAllTemplates()
         self.displayChoices()
+        self.importTemplate()
 
     def displayChoices(self):
         data = []
@@ -59,7 +61,9 @@ class utm:
             userTemplateChoice = awnser["tempalte"]
             userNameChoice = awnser["project_name"]
             self.templateNum = self.templateTranslator[userTemplateChoice]
+            self.projectName = userNameChoice
             print(f"Création du projet {userNameChoice} avec {userTemplateChoice} ...")
+
         except KeyError as e:
             print("Error : template not found")
             exit(1)
@@ -73,7 +77,19 @@ class utm:
                 if(description.exists()):
                     with open(description.resolve(), "r") as f:
                         desc = load(f.read(),Loader)
+                        desc["location"] = Path(template).resolve()
                         self.templateList.append(desc)
                         self.templateTranslator[desc["name"]] = compt
                     compt += 1
+        print(self.templateList)
+    def importTemplate(self):
+        if self.projectName == "":
+            print("Bad project name")
+            exit(1)
+        try:
+            shutil.copytree(self.templateList[self.templateNum]["location"], f"./{self.projectName}", ignore=shutil.ignore_patterns('template_description.yaml'))
+        except:
+            print("Failed to create the new project...")
+
+        pass
 utmanager = utm()
