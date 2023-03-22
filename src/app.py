@@ -13,8 +13,9 @@ except ImportError:
 class utm:
     def __init__(self) -> None:
         self.local_path_check = [
+            Path(str(Path.home()) + "/.utm/template"),
             Path("/usr/share/utm/templates"),
-            Path("./templates")
+            Path("./templates"),
         ]
         self.local_path = []
         for path in self.local_path_check:
@@ -22,7 +23,7 @@ class utm:
                 try:
                     os.makedirs(path.resolve())
                 except Exception as e:
-                    print(f"Error for {path.resolve()}: no directory")
+                    print(f"Error for {path.resolve()}: {e}")
                     continue
             self.local_path.append(path)
 
@@ -42,7 +43,6 @@ class utm:
                 desc["description"] if len(desc["description"]) <= 200 else desc["description"][:197] + '...',
                         [tag + ", " for tag in desc["tags"]]
                     ])
-        print(data)
         question = [
             inquirer.Text("project_name",
                           message='Nom du nouveau projet',
@@ -81,7 +81,6 @@ class utm:
                         self.templateList.append(desc)
                         self.templateTranslator[desc["name"]] = compt
                     compt += 1
-        print(self.templateList)
     def importTemplate(self):
         if self.projectName == "":
             print("Bad project name")
